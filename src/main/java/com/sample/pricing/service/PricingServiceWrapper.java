@@ -55,7 +55,7 @@ public class PricingServiceWrapper {
 		Set<String> keys = productGroup.keySet();
 		List<RecommendedPrice> recommendedPriceList = new ArrayList<RecommendedPrice>();
 		for (String key : keys) {
-			recommendedPriceList.add(pricingService.findBestPrice(productGroup.get(key)));
+			recommendedPriceList.add(pricingService.findFrequentlyOccuringPrice(productGroup.get(key)));
 		}
 		
 		return recommendedPriceList;

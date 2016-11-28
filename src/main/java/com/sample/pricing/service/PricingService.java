@@ -16,6 +16,6 @@ public interface PricingService {
 	 * @param pricingCriteria
 	 * @return RecommendedPrice 
 	 */
-	public RecommendedPrice findBestPrice(PricingCriteria pricingCriteria);
+	public RecommendedPrice findFrequentlyOccuringPrice(PricingCriteria pricingCriteria);
 
 }

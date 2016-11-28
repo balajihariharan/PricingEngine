@@ -48,7 +48,7 @@ public class PricingServiceImplTest {
 		productList.add(productZ);
 		pricingCriteria.setProducts(productList);
  
-		RecommendedPrice recommendedProduct = pricingService.findBestPrice(pricingCriteria);
+		RecommendedPrice recommendedProduct = pricingService.findFrequentlyOccuringPrice(pricingCriteria);
 		assertThat(recommendedProduct.getRecommendedPrice(),equalTo(.9));
 		
 	}
@@ -73,7 +73,7 @@ public class PricingServiceImplTest {
 		productList.add(productY);
 		pricingCriteria.setProducts(productList);
  
-		RecommendedPrice recommendedProduct = pricingService.findBestPrice(pricingCriteria);
+		RecommendedPrice recommendedProduct = pricingService.findFrequentlyOccuringPrice(pricingCriteria);
 		assertThat(recommendedProduct.getRecommendedPrice(),equalTo(10.5));
 		
 	}
@@ -117,7 +117,7 @@ public class PricingServiceImplTest {
 		
 		pricingCriteria.setProducts(productList);
  
-		RecommendedPrice recommendedProduct = pricingService.findBestPrice(pricingCriteria);
+		RecommendedPrice recommendedProduct = pricingService.findFrequentlyOccuringPrice(pricingCriteria);
 		assertThat(recommendedProduct.getRecommendedPrice(),equalTo(12.1));
 		
 	}
@@ -147,7 +147,7 @@ public class PricingServiceImplTest {
 		productList.add(productZ);
 		pricingCriteria.setProducts(productList);
  
-		RecommendedPrice recommendedProduct = pricingService.findBestPrice(pricingCriteria);
+		RecommendedPrice recommendedProduct = pricingService.findFrequentlyOccuringPrice(pricingCriteria);
 		assertThat(recommendedProduct.getRecommendedPrice(),equalTo(50.0));
 		
 	}
@@ -177,7 +177,7 @@ public class PricingServiceImplTest {
 		productList.add(productZ);
 		pricingCriteria.setProducts(productList);
  
-		RecommendedPrice recommendedProduct = pricingService.findBestPrice(pricingCriteria);
+		RecommendedPrice recommendedProduct = pricingService.findFrequentlyOccuringPrice(pricingCriteria);
 		assertThat(recommendedProduct.getRecommendedPrice(),equalTo(47.5));
 		
 	}
@@ -207,7 +207,7 @@ public class PricingServiceImplTest {
 		productList.add(productZ);
 		pricingCriteria.setProducts(productList);
  
-		RecommendedPrice recommendedProduct = pricingService.findBestPrice(pricingCriteria);
+		RecommendedPrice recommendedProduct = pricingService.findFrequentlyOccuringPrice(pricingCriteria);
 		assertThat(recommendedProduct.getRecommendedPrice(),equalTo(47.5));
 		
 	}

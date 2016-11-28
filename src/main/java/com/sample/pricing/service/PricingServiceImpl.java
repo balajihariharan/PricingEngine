@@ -1,14 +1,13 @@
 package com.sample.pricing.service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import com.sample.pricing.PricingCriteria;
-import com.sample.pricing.SupplyDemand;
 import com.sample.pricing.Product;
 import com.sample.pricing.RecommendedPrice;
+import com.sample.pricing.SupplyDemand;
 
 public class PricingServiceImpl implements PricingService {
 	/**
@@ -24,7 +23,7 @@ public class PricingServiceImpl implements PricingService {
 	 * @param pricingCriteria
 	 * @return RecommendedPrice
 	 */
-	public RecommendedPrice findBestPrice(PricingCriteria pricingCriteria) {
+	public RecommendedPrice findFrequentlyOccuringPrice(PricingCriteria pricingCriteria) {
 
 		// First rule check the parameter for demand and supply
 		boolean highDemand = pricingCriteria.getDemand().equals(SupplyDemand.H) ? true
@@ -32,6 +31,7 @@ public class PricingServiceImpl implements PricingService {
 		boolean highSupply = pricingCriteria.getSupply().equals(SupplyDemand.H) ? true
 				: false;
 		List<Product> products = pricingCriteria.getProducts();
+		//sort the list by price that way lowest priced product is first in the list
 		Collections.sort(products, new Comparator<Product>() {
 			public int compare(Product o1, Product o2) {
 				return o1.getPrice().compareTo(o2.getPrice());
@@ -43,16 +43,19 @@ public class PricingServiceImpl implements PricingService {
 		if (highSupply && highDemand) {
 			recommendedPrice = lowerPricedProduct.getPrice();
 		} else if (!highSupply && !highDemand) {
+			String percentageValue =  PropertyManager.getInstance().getValue("lowSupply.lowDemand");
 			recommendedPrice = (lowerPricedProduct.getPrice() + lowerPricedProduct
-					.getPrice() * 0.1);
+					.getPrice() * Double.parseDouble(percentageValue));
 			// sell at more that 10% chosen price
 		} else if (!highSupply && highDemand) {
+			String percentageValue =  PropertyManager.getInstance().getValue("lowSupply.highDemand");
 			recommendedPrice = (lowerPricedProduct.getPrice() + lowerPricedProduct
-					.getPrice() * .05);
+					.getPrice() * Double.parseDouble(percentageValue));
 			// sell more than 5%
 		} else if (highSupply && !highDemand) {
+			String percentageValue =  PropertyManager.getInstance().getValue("highSupply.lowDemand");
 			recommendedPrice = (lowerPricedProduct.getPrice() - lowerPricedProduct
-					.getPrice() * .05);
+					.getPrice() * Double.parseDouble(percentageValue));
 			// sell 5% less
 		}
 		RecommendedPrice chosenProduct = new RecommendedPrice();
@@ -64,13 +67,10 @@ public class PricingServiceImpl implements PricingService {
 	private Product calculateLowestPrice(List<Product> products) {
 		Product lowestPrice = null;
 		boolean duplicatesFound = false;
-		List<Double> priceList = new ArrayList<Double>();
 
 		double sum = 0;
-
 		for (int i = 0; i < products.size(); i++) {
-			priceList.add(products.get(i).getPrice());
-			sum += products.get(i).getPrice();
+	 		sum += products.get(i).getPrice();
 		}
 		double temp = 0.0;
 
@@ -86,7 +86,8 @@ public class PricingServiceImpl implements PricingService {
 				break;
 			}
 		}
-		double productAverage = sum / priceList.size();
+		//if there are repeating prices,pick the second lower price instead
+		double productAverage = sum / products.size();
 		for (int i = 0; i < products.size(); i++) {
 			lowestPrice = products.get(i);
 			if (lowestPrice.getPrice() > (productAverage * 0.5)) {
