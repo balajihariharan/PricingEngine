@@ -6,9 +6,9 @@
         groups different products that might come from different sources and in turn invokes service.List of Products could come
         from external APIs or by hitting Database or a flat file
     
-Maven is required to build this project,following maven command can be used to build the project.
+Maven is required to build this project,following maven command can be used to build the project
+
   `mvn clean install`
-  
 
 * for Service usage,refer `PricingServiceImplTest` 
 * for Wrapper usage refer `PricingServiceWrapperTest`
