@@ -7,9 +7,15 @@ import java.util.List;
 import com.sample.pricing.PricingCriteria;
 import com.sample.pricing.Product;
 import com.sample.pricing.RecommendedPrice;
+import com.sample.pricing.SearchCriteria;
+import com.sample.pricing.SearchCriteriaImpl;
 import com.sample.pricing.SupplyDemand;
 
 public class PricingServiceImpl implements PricingService {
+	private SearchCriteria searchCriteria;
+	public PricingServiceImpl(){
+		searchCriteria = new SearchCriteriaImpl();
+	}
 	/**
 	 * This method computes best price for a list of Products based on
 	 * conditions below and returns Recommended price
@@ -25,7 +31,7 @@ public class PricingServiceImpl implements PricingService {
 	 */
 	public RecommendedPrice findFrequentlyOccuringPrice(PricingCriteria pricingCriteria) {
 
-		// First rule check the parameter for demand and supply
+		// check the parameter for demand and supply
 		boolean highDemand = pricingCriteria.getDemand().equals(SupplyDemand.H) ? true
 				: false;
 		boolean highSupply = pricingCriteria.getSupply().equals(SupplyDemand.H) ? true
@@ -38,7 +44,7 @@ public class PricingServiceImpl implements PricingService {
 			}
 		});
 
-		Product lowerPricedProduct = calculateLowestPrice(products);
+		Product lowerPricedProduct = searchCriteria.calculateLowestPrice(products);
 		double recommendedPrice = 0;
 		if (highSupply && highDemand) {
 			recommendedPrice = lowerPricedProduct.getPrice();
@@ -64,40 +70,6 @@ public class PricingServiceImpl implements PricingService {
 		return chosenProduct;
 	}
 
-	private Product calculateLowestPrice(List<Product> products) {
-		Product lowestPrice = null;
-		boolean duplicatesFound = false;
-
-		double sum = 0;
-		for (int i = 0; i < products.size(); i++) {
-	 		sum += products.get(i).getPrice();
-		}
-		double temp = 0.0;
-
-		for (int i = 0; i < products.size(); i++) {
-			temp = products.get(i).getPrice();
-			for (int j = i + 1; j < products.size(); j++) {
-				if (products.get(j).getPrice() == temp) {
-					duplicatesFound = true;
-					break;
-				}
-			}
-			if (duplicatesFound) {
-				break;
-			}
-		}
-		//if there are repeating prices,pick the second lower price instead
-		double productAverage = sum / products.size();
-		for (int i = 0; i < products.size(); i++) {
-			lowestPrice = products.get(i);
-			if (lowestPrice.getPrice() > (productAverage * 0.5)) {
-				if (duplicatesFound) {
-					lowestPrice = products.get(i + 1);
-				}
-				break;
-			}
-		}
-		return lowestPrice;
-	}
+	
 
 }
