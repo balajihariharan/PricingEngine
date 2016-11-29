@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sample.pricing.PricingCriteria;
+import com.sample.pricing.RecommendedProduct;
+import com.sample.pricing.SearchCriteria;
 import com.sample.pricing.SupplyDemand;
 import com.sample.pricing.Product;
-import com.sample.pricing.RecommendedPrice;
 import com.sample.pricing.service.PricingService;
 import com.sample.pricing.service.PricingServiceImpl;
 
@@ -24,7 +24,7 @@ public class PricingServiceImplTest {
 	}
 	@Test
 	public void testSupplyHighDemandHigh() {
-		PricingCriteria pricingCriteria = new PricingCriteria();
+		SearchCriteria pricingCriteria = new SearchCriteria();
 		pricingCriteria.setDemand(SupplyDemand.H);
 		pricingCriteria.setSupply(SupplyDemand.H);
 		Product productX = new Product();
@@ -46,15 +46,15 @@ public class PricingServiceImplTest {
 		productList.add(productX);
 		productList.add(productY);
 		productList.add(productZ);
-		pricingCriteria.setProducts(productList);
+		pricingCriteria.setProductList(productList);
  
-		RecommendedPrice recommendedProduct = pricingService.findFrequentlyOccuringPrice(pricingCriteria);
+		RecommendedProduct recommendedProduct = pricingService.findRecommendedPrice(pricingCriteria);
 		assertThat(recommendedProduct.getRecommendedPrice(),equalTo(.9));
 		
 	}
 	@Test
 	public void testSupplyLowDemandHigh() {
-		PricingCriteria pricingCriteria = new PricingCriteria();
+		SearchCriteria pricingCriteria = new SearchCriteria();
 		pricingCriteria.setSupply(SupplyDemand.L);
 		pricingCriteria.setDemand(SupplyDemand.H);
 		Product productX = new Product();
@@ -71,15 +71,15 @@ public class PricingServiceImplTest {
 		ArrayList<Product> productList = new ArrayList<Product>();
 		productList.add(productX);
 		productList.add(productY);
-		pricingCriteria.setProducts(productList);
+		pricingCriteria.setProductList(productList);
  
-		RecommendedPrice recommendedProduct = pricingService.findFrequentlyOccuringPrice(pricingCriteria);
+		RecommendedProduct recommendedProduct = pricingService.findRecommendedPrice(pricingCriteria);
 		assertThat(recommendedProduct.getRecommendedPrice(),equalTo(10.5));
 		
 	}
 	@Test
 	public void testSupplyLowDemandLow() {
-		PricingCriteria pricingCriteria = new PricingCriteria();
+		SearchCriteria pricingCriteria = new SearchCriteria();
 		pricingCriteria.setSupply(SupplyDemand.L);
 		pricingCriteria.setDemand(SupplyDemand.L);
 		Product productW = new Product();
@@ -115,15 +115,15 @@ public class PricingServiceImplTest {
 		productList.add(productY);
 		productList.add(productZ);
 		
-		pricingCriteria.setProducts(productList);
+		pricingCriteria.setProductList(productList);
  
-		RecommendedPrice recommendedProduct = pricingService.findFrequentlyOccuringPrice(pricingCriteria);
+		RecommendedProduct recommendedProduct = pricingService.findRecommendedPrice(pricingCriteria);
 		assertThat(recommendedProduct.getRecommendedPrice(),equalTo(12.1));
 		
 	}
 	@Test
 	public void testSupplyHighDemandHigh2() {
-		PricingCriteria pricingCriteria = new PricingCriteria();
+		SearchCriteria pricingCriteria = new SearchCriteria();
 		pricingCriteria.setDemand(SupplyDemand.H);
 		pricingCriteria.setSupply(SupplyDemand.H);
 		Product productX = new Product();
@@ -145,15 +145,15 @@ public class PricingServiceImplTest {
 		productList.add(productX);
 		productList.add(productY);
 		productList.add(productZ);
-		pricingCriteria.setProducts(productList);
+		pricingCriteria.setProductList(productList);
  
-		RecommendedPrice recommendedProduct = pricingService.findFrequentlyOccuringPrice(pricingCriteria);
+		RecommendedProduct recommendedProduct = pricingService.findRecommendedPrice(pricingCriteria);
 		assertThat(recommendedProduct.getRecommendedPrice(),equalTo(50.0));
 		
 	}
 	@Test
 	public void testSupplyHighDemandLow() {
-		PricingCriteria pricingCriteria = new PricingCriteria();
+		SearchCriteria pricingCriteria = new SearchCriteria();
 		pricingCriteria.setDemand(SupplyDemand.L);
 		pricingCriteria.setSupply(SupplyDemand.H);
 		Product productX = new Product();
@@ -175,15 +175,15 @@ public class PricingServiceImplTest {
 		productList.add(productX);
 		productList.add(productY);
 		productList.add(productZ);
-		pricingCriteria.setProducts(productList);
+		pricingCriteria.setProductList(productList);
  
-		RecommendedPrice recommendedProduct = pricingService.findFrequentlyOccuringPrice(pricingCriteria);
+		RecommendedProduct recommendedProduct = pricingService.findRecommendedPrice(pricingCriteria);
 		assertThat(recommendedProduct.getRecommendedPrice(),equalTo(47.5));
 		
 	}
 	@Test
 	public void testDataError() {
-		PricingCriteria pricingCriteria = new PricingCriteria();
+		SearchCriteria pricingCriteria = new SearchCriteria();
 		pricingCriteria.setDemand(SupplyDemand.L);
 		pricingCriteria.setSupply(SupplyDemand.H);
 		Product productX = new Product();
@@ -205,9 +205,9 @@ public class PricingServiceImplTest {
 		productList.add(productX);
 		productList.add(productY);
 		productList.add(productZ);
-		pricingCriteria.setProducts(productList);
+		pricingCriteria.setProductList(productList);
  
-		RecommendedPrice recommendedProduct = pricingService.findFrequentlyOccuringPrice(pricingCriteria);
+		RecommendedProduct recommendedProduct = pricingService.findRecommendedPrice(pricingCriteria);
 		assertThat(recommendedProduct.getRecommendedPrice(),equalTo(47.5));
 		
 	}

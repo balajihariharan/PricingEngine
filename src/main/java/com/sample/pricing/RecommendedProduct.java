@@ -1,6 +1,6 @@
 package com.sample.pricing;
 
-public class RecommendedPrice {
+public class RecommendedProduct {
 private double recommendedPrice;
 private Product product;
 public double getRecommendedPrice() {

@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.sample.pricing.PricingCriteria;
-import com.sample.pricing.SupplyDemand;
 import com.sample.pricing.Product;
-import com.sample.pricing.RecommendedPrice;
+import com.sample.pricing.RecommendedProduct;
+import com.sample.pricing.SearchCriteria;
+import com.sample.pricing.SupplyDemand;
 
 public class PricingServiceWrapper {
 	private PricingService pricingService;
@@ -25,20 +25,20 @@ public class PricingServiceWrapper {
 	 * @param productList
 	 * @return RecommendedPrice list
 	 */
-	public List<RecommendedPrice> findBestPriceForProducts(List<String> productTypes,List<String> productList){
-		PricingCriteria pricingCriteria =null;
+	public List<RecommendedProduct> findRecommendedPriceForGroup(List<String> productTypes,List<String> productList){
+		SearchCriteria searchCriteria =null;
 		Product product = null;
 		String [] temp;
-		Map<String,PricingCriteria> productGroup = new HashMap<String,PricingCriteria>();
+		Map<String,SearchCriteria> productGroup = new HashMap<String,SearchCriteria>();
 		for (int i=0;i<productTypes.size();i++) {
 			 product = new Product();
 			 temp = productTypes.get(i).split(" ");
 			 product.setName(temp[0]);
-			 pricingCriteria = new PricingCriteria();
-			 pricingCriteria.setSupply(SupplyDemand.valueOf(temp[1]));
-			 pricingCriteria.setDemand(SupplyDemand.valueOf(temp[2]));	
-			 pricingCriteria.setProducts(new ArrayList<Product>());
-			 productGroup.put(product.getName(),pricingCriteria);
+			 searchCriteria = new SearchCriteria();
+			 searchCriteria.setSupply(SupplyDemand.valueOf(temp[1]));
+			 searchCriteria.setDemand(SupplyDemand.valueOf(temp[2]));	
+			 searchCriteria.setProductList(new ArrayList<Product>());
+			 productGroup.put(product.getName(),searchCriteria);
 		}
 		for(String productRaw :productList){
 			temp = productRaw.split(" ");
@@ -46,16 +46,16 @@ public class PricingServiceWrapper {
 			product.setName(temp[0]);
 			product.setManufacturer(temp[1]);
 			product.setPrice(Double.parseDouble(temp[2]));
-			pricingCriteria = productGroup.get(product.getName());
-			List <Product> products = pricingCriteria.getProducts();
+			searchCriteria = productGroup.get(product.getName());
+			List <Product> products = searchCriteria.getProductList();
 			products.add(product);
-			pricingCriteria.setProducts(products);
+			searchCriteria.setProductList(products);
 		}
 		
 		Set<String> keys = productGroup.keySet();
-		List<RecommendedPrice> recommendedPriceList = new ArrayList<RecommendedPrice>();
+		List<RecommendedProduct> recommendedPriceList = new ArrayList<RecommendedProduct>();
 		for (String key : keys) {
-			recommendedPriceList.add(pricingService.findFrequentlyOccuringPrice(productGroup.get(key)));
+			recommendedPriceList.add(pricingService.findRecommendedPrice(productGroup.get(key)));
 		}
 		
 		return recommendedPriceList;

@@ -1,14 +1,16 @@
 package com.sample.pricing.service;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.hamcrest.Matchers.equalTo;
-import com.sample.pricing.RecommendedPrice;
+
+import com.sample.pricing.RecommendedProduct;
 
 public class PricingServiceWrapperTest {
 	PricingServiceWrapper pricingServiceWrapper = null;
@@ -29,7 +31,7 @@ public class PricingServiceWrapperTest {
 		productList.add("flashdrive Y 0.9");
 		productList.add("flashdrive Z 1.1");
 		productList.add("ssd Y 12.5");
-		List<RecommendedPrice> recommendedPriceList = pricingServiceWrapper.findBestPriceForProducts(productTypes, productList);
+		List<RecommendedProduct> recommendedPriceList = pricingServiceWrapper.findRecommendedPriceForGroup(productTypes, productList);
 		assertThat(recommendedPriceList.size(), equalTo(productTypes.size()));
 		assertNotNull("RecommendedPrice List is null ",recommendedPriceList.get(0));
 		assertThat(recommendedPriceList.get(0).getRecommendedPrice(),equalTo(0.9));

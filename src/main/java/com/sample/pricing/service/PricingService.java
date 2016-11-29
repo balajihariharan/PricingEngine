@@ -1,7 +1,7 @@
 package com.sample.pricing.service;
 
-import com.sample.pricing.PricingCriteria;
-import com.sample.pricing.RecommendedPrice;
+import com.sample.pricing.RecommendedProduct;
+import com.sample.pricing.SearchCriteria;
 
 public interface PricingService {
 	
@@ -13,9 +13,9 @@ public interface PricingService {
 	 *	If Supply is Low and Demand is High, Product is sold at 5 % more than chosen price.
 	 *	If Supply is High and Demand is Low, Product is sold at 5 % less than chosen price.
 	 * 
-	 * @param pricingCriteria
-	 * @return RecommendedPrice 
+	 * @param SearchCriteria
+	 * @return RecommendedProduct 
 	 */
-	public RecommendedPrice findFrequentlyOccuringPrice(PricingCriteria pricingCriteria);
+	public RecommendedProduct findRecommendedPrice(SearchCriteria pricingCriteria);
 
 }
