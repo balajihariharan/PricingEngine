@@ -14,3 +14,7 @@ This command also executes junit test cases.
 * jUnit test for Wrapper `PricingServiceWrapperTest`
 
 Percentage value to discount/appraise is derived from properties file for given Supply and Demand.That way to change these settings ,we can avoid re-compiling.
+
+12/2/2016 would have considered following if i had a chance to change now.
+* define Contructors for domains instead of getters/setters since it makes it easy to unit test.
+* Use `set` instead of `List` and subsequently over ride `equals & hashCode() methods`
